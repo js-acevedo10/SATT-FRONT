@@ -17,6 +17,8 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
     $scope.formData = {};
     $scope.postForm = function () {
         $scope.processingForm = true;
+        $scope.error = false;
+        $scope.sent = false;
         $http({
             method: 'POST',
             url: 'http://uniandes-satt.herokuapp.com/eventos',
