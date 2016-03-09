@@ -4,7 +4,8 @@
 angular.module('myApp', [
     'ngRoute',
     'myApp.eventos',
-    'myApp.nuevoEvento'
+    'myApp.nuevoEvento',
+    'myApp.home'
 ]).
 config(['$routeProvider', function ($routeProvider) {
     $routeProvider.otherwise({
