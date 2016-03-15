@@ -11,7 +11,7 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }])
 
-.controller('NuevoEventoCtrl', ['$scope', '$http', function ($scope, $http) {
+.controller('NuevoEventoCtrl', ['$scope', '$http', '$interval', function ($scope, $http) {
     $scope.error = false;
     $scope.sent = false;
     $scope.formData = {};
@@ -25,9 +25,11 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
             data: JSON.stringify($scope.form),
         }).then(function successCallback(response) {
             $scope.mensaje = response.data;
+            console.log("Alerta id: "+$scope.mensaje.id);
             if ($scope.mensaje.perfil === "Informativo") {
                 $scope.classPerfil = "table-warning";
             }
+            $scope.actualizar();
         }, function errorCallback(response) {
             $scope.error = true;
             $scope.defError = response.data;
@@ -36,4 +38,37 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
             $scope.sent = true;
         });
     }
+    
+    var alerta;
+    $scope.actualizar = function() {
+        if ( angular.isDefined(alerta) ) return;
+
+        alerta = $interval(function() {
+            if ($scope.mensaje.perfil != "Informativo") {
+                $http({
+                    method: 'GET',
+                    url: 'http://uniandes-satt.herokuapp.com/alerta/'+$scope.mensaje.id,
+                }).then(function successCallback(response) {
+                    $scope.mensaje = response.data;
+                    if ($scope.mensaje.perfil === "Informativo") {
+                        $scope.classPerfil = "table-warning";
+                    }
+                }, function errorCallback(response) {
+                    $scope.error = true;
+                    $scope.defError = response.data;
+                }).finally(function () {
+                    $scope.processingForm = false;
+                    $scope.sent = true;
+                });
+            } else {
+                $scope.informativo();
+            }
+        }, 300000);
+    };
+    $scope.informativo = function() {
+        if (angular.isDefined(alerta)) {
+            $interval.cancel(alerta);
+            alerta = undefined;
+        }
+    };
 }]);
