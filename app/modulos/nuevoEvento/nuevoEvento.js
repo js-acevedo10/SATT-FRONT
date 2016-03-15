@@ -11,7 +11,7 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }])
 
-.controller('NuevoEventoCtrl', ['$scope', '$http', '$interval', function ($scope, $http) {
+.controller('NuevoEventoCtrl', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
     $scope.error = false;
     $scope.sent = false;
     $scope.formData = {};
@@ -42,12 +42,12 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
     var alerta;
     $scope.actualizar = function() {
         if ( angular.isDefined(alerta) ) return;
-
+        
         alerta = $interval(function() {
-            if ($scope.mensaje.perfil != "Informativo") {
+            if ($scope.mensaje.id != undefined && $scope.mensaje.perfil != "Informativo") {
                 $http({
                     method: 'GET',
-                    url: 'http://uniandes-satt.herokuapp.com/alerta/'+$scope.mensaje.id,
+                    url: 'http://uniandes-satt.herokuapp.com/alertas/'+$scope.mensaje.id,
                 }).then(function successCallback(response) {
                     $scope.mensaje = response.data;
                     if ($scope.mensaje.perfil === "Informativo") {
@@ -63,7 +63,7 @@ angular.module('myApp.nuevoEvento', ['ngRoute'])
             } else {
                 $scope.informativo();
             }
-        }, 300000);
+        }, 5000);
     };
     $scope.informativo = function() {
         if (angular.isDefined(alerta)) {
