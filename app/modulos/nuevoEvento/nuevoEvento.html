@@ -28,7 +28,7 @@
                 <th>Altura de ola</th>
             </thead>
             <tbody>
-                <tr ng-class="classPerfil">
+                <tr ng-class="{success: mensaje.perfil == 'Informativo', warning: mensaje.perfil == 'Alerta', danger: mensaje.perfil == 'Alarma'}">
                     <td>{{mensaje.id}}</td>
                     <td>{{mensaje.perfil}}</td>
                     <td>{{mensaje.zona}}</td>

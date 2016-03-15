@@ -11,7 +11,7 @@
             <th>Altura de ola</th>
         </thead>
         <tbody>
-            <tr ng-repeat="alerta in alertas">
+            <tr ng-repeat="alerta in alertas" ng-class="{success: alerta.perfil == 'Informativo', warning: alerta.perfil == 'Alerta', danger: alerta.perfil == 'Alarma'}" >
                 <td>{{alerta._id.$oid}}</td>
                 <td>{{alerta.perfil}}</td>
                 <td>{{alerta.zona}}</td>
