@@ -4,6 +4,7 @@
 angular.module('myApp', [
     'ngRoute',
     'myApp.eventos',
+    'myApp.alertas',
     'myApp.nuevoEvento',
     'myApp.home'
 ]).

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.eventos', ['ngRoute'])
+angular.module('myApp.alertas', ['ngRoute'])
 
 .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/alertas', {
